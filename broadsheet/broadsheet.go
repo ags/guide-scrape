@@ -32,10 +32,16 @@ type Response struct {
 }
 
 type Result struct {
-	URL      string `json:"url"`
-	Suburb   string `json:"suburb"`
-	Title    string `json:"title"`
-	Category string `json:"category"`
+	URL            string   `json:"url"`
+	Suburb         string   `json:"suburb"`
+	Title          string   `json:"title"`
+	Category       string   `json:"category"`
+	Description    string   `json:"description"`
+	Features       []string `json:"features"`
+	PrimaryAddress struct {
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+	} `json:"primary_address"`
 }
 
 type searchOption struct {

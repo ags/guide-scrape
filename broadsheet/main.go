@@ -27,6 +27,21 @@ func main() {
 	}
 
 	csv := csv.NewWriter(os.Stdout)
+
+	if err := csv.Write([]string{
+		"city",
+		"suburb",
+		"category",
+		"name",
+		"url",
+		"description",
+		"latitude",
+		"longitude",
+		"features",
+	}); err != nil {
+		log.Fatal(err)
+	}
+
 	for _, r := range results {
 		err := csv.Write([]string{
 			city,
@@ -34,6 +49,10 @@ func main() {
 			r.Category,
 			r.Title,
 			r.URL,
+			strings.TrimRight(r.Description, "\n"),
+			fmt.Sprint(r.PrimaryAddress.Latitude),
+			fmt.Sprint(r.PrimaryAddress.Longitude),
+			strings.Join(r.Features, ","),
 		})
 		if err != nil {
 			log.Fatal(err)
