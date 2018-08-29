@@ -10,8 +10,8 @@ import (
 
 func main() {
 	var (
-		region    = "sydney"
-		placeType = "cafe"
+		region    = os.Args[1]
+		placeType = os.Args[2]
 	)
 
 	client := NewClient()
@@ -33,10 +33,10 @@ func main() {
 	})
 
 	for {
-		fmt.Fprintf(os.Stderr, "request page=%d\n", page)
+		fmt.Fprintf(os.Stderr, "request region=%s type=%s page=%d\n", region, placeType, page)
 		res, err := client.Search(region, placeType, page)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "request page=%d err=%v\n", page, err)
+			fmt.Fprintf(os.Stderr, "request region=%s type=%s page=%d err=%v\n", region, placeType, page, err)
 			os.Exit(1)
 		}
 		for _, r := range res.Results {
@@ -54,12 +54,10 @@ func main() {
 				r.StructuredData.URL,
 			})
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "request page=%d err=%v\n", page, err)
+				fmt.Fprintf(os.Stderr, "request region=%s type=%s page=%d err=%v\n", region, placeType, page, err)
 				os.Exit(1)
 			}
 		}
-
-		fmt.Fprintf(os.Stderr, "request page=%d results=%d\n", page, len(res.Results))
 		if len(res.Results) < 20 {
 			break
 		}
